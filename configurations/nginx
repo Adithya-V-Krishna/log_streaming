@@ -1,0 +1,11 @@
+upstream app_server {
+        server 127.0.0.1:8000 fail_timeout=0;
+}
+server {
+        listen 80;
+        server_name ec2-13-232-141-96.ap-south-1.compute.amazonaws.com;
+        location / {
+                proxy_pass http://app_server;
+                proxy_set_header Host $host;
+        }
+}
