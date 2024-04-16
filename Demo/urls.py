@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import get_blogs, create_blogs
+from api.views import send_data_to_firehose
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns=[
     path('admin/', admin.site.urls),
-    path("blogs/", get_blogs),
-    path("blogs/create", csrf_exempt(create_blogs))
+    path("data/push/", send_data_to_firehose),
+    
 ]

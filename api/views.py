@@ -1,27 +1,28 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import boto3
 import json
 
-
-def get_blogs(request):
-    res = {
-        'success': True,
-        'message': "function based view : api to get blogs" 
-    }
-    return JsonResponse(res)
-
-def create_blogs(request):
-    body = json.loads(request.body)
-    print(body)
-    if request.method == 'POST' :
-
-        res = {
-            'success': True,
-            'message': "function based view : api to create blogs" 
-        }
-    else :
-         res = {
-            'success': False,
-            'message': "function based view : api to create blogs" 
-        }   
-    return JsonResponse(res)
-    
+@csrf_exempt  # This decorator is used to exempt CSRF protection for this view
+def send_data_to_firehose(request):
+    if request.method == 'POST':
+        try:
+            # Extract JSON data from the request body
+            json_data = json.loads(request.body)
+            
+            # Initialize the AWS Firehose client
+            client = boto3.client('firehose', region_name='ap-south-1')
+            
+            # Send data to Firehose
+            response = client.put_record(
+                DeliveryStreamName='Social_media_log',
+                Record={
+                    'Data': json.dumps(json_data)
+                }
+            )
+            
+            return JsonResponse({'success': True, 'response': response})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    else:
+        return JsonResponse({'error': 'This endpoint only accepts POST requests.'}, status=405)
