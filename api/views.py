@@ -15,7 +15,7 @@ def send_data_to_firehose(request):
             
             # Send data to Firehose
             response = client.put_record(
-                DeliveryStreamName='social_media_log_delivery',
+                DeliveryStreamName='social-media-log-stream',
                 Record={
                     'Data': json.dumps(json_data)
                 }
