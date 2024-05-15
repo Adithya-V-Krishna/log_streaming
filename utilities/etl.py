@@ -48,9 +48,9 @@ try:
             user_account_id as account_id, 
             trunc(created_at) AS created_date, 
             extract(hour from created_at) AS hour,
-            count(distinct reel_id) as num_of_unique_reels
-            count(reel_id) as num_of_reels    
-            sum(reel_spent_time) AS spent_time,
+            count(distinct reel_id) as num_of_unique_reels,
+            count(reel_id) as num_of_reels,    
+            sum(reel_spent_time) AS spent_time
         FROM dev.public.social_media_log_v2 
         WHERE created_at >= (SELECT etl_look_up_time FROM constant)
         GROUP BY 1, 2, 3
