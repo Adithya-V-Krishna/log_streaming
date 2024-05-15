@@ -35,7 +35,7 @@ ad_skipped_and_shown = ["true", "false"]
 
 
 
-url = 'ec2-13-232-141-96.ap-south-1.compute.amazonaws.com/data/push/'
+url = 'http://ec2-13-232-141-96.ap-south-1.compute.amazonaws.com/data/push/'
 
 for i in range(0,10):
     reel_choice = random.choice(reel_id)
